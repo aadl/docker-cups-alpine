@@ -11,7 +11,7 @@ RUN apk add --update --no-cache --repository=https://s3.amazonaws.com/aadl-githu
 	echo "ServerAlias *" >> /etc/cups/cupsd.conf && \
 	echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
 
-VOLUME /etc/cups/ /var/log/cups /var/spool/cups /var/cache/cups
+VOLUME /etc/cups/ /var/log/cups /var/spool/cups /var/spool/cups-pdf /var/cache/cups
 
 COPY start-cups.sh /root/start-cups.sh
 RUN chmod +x /root/start-cups.sh
