@@ -1,0 +1,52 @@
+{
+  "variables": {
+    "cups_version": "2.2.10",
+    "alpine_version": "3.8"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "alpine:{{ user `alpine_version` }}",
+      "commit": true,
+      "changes": [
+        "VOLUME /etc/cups/ /var/log/cups /var/spool/cups /var/spool/cups-pdf /var/cache/cups",
+        "EXPOSE 631",
+        "CMD [\"/root/start-cups.sh\"]"
+      ],
+      "run_command": ["--link=apk-cache:dl-cdn.alpinelinux.org", "-d", "-i", "-t", "{{.Image}}", "/bin/sh"]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "start-cups.sh",
+      "destination": "/tmp/start-cups.sh"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "cp /tmp/start-cups.sh /root/start-cups.sh",
+        "chmod a+x /root/start-cups.sh",
+        "apk add --update --no-cache --repository=https://s3.amazonaws.com/aadl-github/alpine cups-pdf cups-filters cups={{user `cups_version`}}-r0 --allow-untrusted",
+        "cat /tmp/script*",
+        "sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf",
+        "sed -i 's/<Location \\/>/<Location \\/>\\n  Allow All/' /etc/cups/cupsd.conf",
+        "sed -i 's/<Location \\/admin>/<Location \\/admin>\\n  Allow All\\n  Require user @SYSTEM/' /etc/cups/cupsd.conf",
+        "sed -i 's/<Location \\/admin>/<Location \\/admin>\\n  Allow All\\n  Require user @SYSTEM/' /etc/cups/cupsd.conf",
+        "echo 'ServerAlias *' >> /etc/cups/cupsd.conf",
+        "echo 'DefaultEncryption Never' >> /etc/cups/cupsd.conf"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "aadl/cups-alpine",
+        "tag": "{{user `cups_version`}}"
+      },
+      "docker-push"
+    ]
+  ]
+}
