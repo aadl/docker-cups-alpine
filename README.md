@@ -1,9 +1,10 @@
-# Supported tags and respective `Dockerfile` links
+# Supported tags
 
-- [`2.2.3`, `latest` (*2.2.3/Dockerfile*)](https://github.com/aadl/docker-cups-alpine/blob/master/2.2.3/Dockerfile)
-- [`2.2.2` (*2.2.2/Dockerfile*)](https://github.com/aadl/docker-cups-alpine/blob/master/2.2.2/Dockerfile)
-- [`2.2.1` (*2.2.1/Dockerfile*)](https://github.com/aadl/docker-cups-alpine/blob/master/2.2.1/Dockerfile)
-- [`2.1.3` (*2.1.3/Dockerfile*)](https://github.com/aadl/docker-cups-alpine/blob/master/2.1.3/Dockerfile)
+This repository uses `packer` to generate the docker images for various cups versions.
+
+All versions are currently built and shipped with the latest Alpine base layer which right now is 3.8
+
+Supported versions are `2.2.1` through `2.2.10` (latest) with the exception of 2.2.7 which has a compilation issue I'm still investigating.
 
 # What is CUPS?
 
