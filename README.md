@@ -4,7 +4,9 @@ This repository uses `packer` to generate the docker images for various cups ver
 
 All versions are currently built and shipped with the latest Alpine base layer which right now is 3.8
 
-Supported versions are `2.2.1` through `2.2.10` (latest) with the exception of 2.2.7 which has a compilation issue I'm still investigating.
+- 2.2.8
+- 2.2.9
+- 2.2.10 (latest)
 
 # What is CUPS?
 
